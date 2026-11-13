@@ -1,0 +1,29 @@
+def aggregate_results(results: list[dict]) -> dict:
+    stats = {}
+    default = {
+    "total": 0,
+    "passed": 0,
+    "failed": 0,
+    "pass_rate": 0.0 }
+    valid_case = ['PASS', 'FAIL']
+    stats['total'] = len(results)
+    for case in results :
+        if case['status'] not in valid_case :
+            raise ValueError ("Invalid Input")
+    if not results :
+        return default
+    stats['passed'] = sum( 1 for case in results if case['status'] == 'PASS')
+    stats['failed'] = sum( 1 for case in results if case['status'] == 'FAIL')
+    stats['pass_rate'] = (stats['passed']/stats['total'])*100
+    return stats
+
+if __name__ == "__main__":
+    results = [
+    {"case_id": 1, "status": "PASS"},
+    {"case_id": 2, "status": "FAIL"},
+    {"case_id": 3, "status": "PASS"}
+]
+
+output = aggregate_results(results)
+print(output)
+
